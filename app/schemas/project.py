@@ -16,6 +16,7 @@ class ProjetBase(BaseModel):
     duree_collecte: int
     statut: str = "reçu"
     secteur: str
+    region: Optional[str] = None
     localisation: str
     tags_impact: Optional[List[str]] = []
     medias: Optional[List[str]] = []

@@ -29,7 +29,8 @@ def register(user: UserCreate, supabase: Client = Depends(get_supabase_client)):
             "options": {
                 "data": {
                     "nom": user.nom,
-                    "prenom": user.prenom
+                    "prenom": user.prenom,
+                    "type_utilisateur": user.type_utilisateur
                 }
             }
         })

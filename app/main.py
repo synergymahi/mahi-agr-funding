@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routers import auth, users, projects
+from app.routers import auth, users, projects, admin
 
 app = FastAPI(
     title="Mahi Crowdfunding API",
@@ -10,6 +10,7 @@ app = FastAPI(
 app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
 app.include_router(users.router, prefix="/users", tags=["Users"])
 app.include_router(projects.router, prefix="/projects", tags=["Projects"])
+app.include_router(admin.router, prefix="/admin", tags=["Admin"])
 
 @app.get("/")
 def read_root():

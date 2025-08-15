@@ -5,8 +5,10 @@ from jose import JWTError, jwt
 import os
 from app.db.supabase import get_supabase_client
 from app.schemas.user import User
+from typing import Optional
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+optional_oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login", auto_error=False)
 
 JWT_SECRET = os.environ.get("JWT_SECRET")
 if not JWT_SECRET:
@@ -39,3 +41,25 @@ async def get_current_user(token: str = Depends(oauth2_scheme), supabase: Client
         return User(**user_data)
     except Exception:
         raise credentials_exception
+
+async def get_optional_current_user(token: str = Depends(optional_oauth2_scheme), supabase: Client = Depends(get_supabase_client)) -> Optional[User]:
+    if not token:
+        return None
+    try:
+        user_response = supabase.auth.get_user(token)
+        user = user_response.user
+        if user is None:
+            return None
+            
+        user_data = {
+            "id": user.id,
+            "email": user.email,
+            "nom": user.user_metadata.get("nom"),
+            "prenom": user.user_metadata.get("prenom"),
+            "type_utilisateur": user.user_metadata.get("type_utilisateur"),
+            "adresse_postale": user.user_metadata.get("adresse_postale"),
+            "numero_telephone": user.user_metadata.get("numero_telephone"),
+        }
+        return User(**user_data)
+    except Exception:
+        return None
