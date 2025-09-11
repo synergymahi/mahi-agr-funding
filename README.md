@@ -124,6 +124,13 @@ CREATE TABLE projects (
 
 ### 4. Run the Application
 
+Use command
+
+uvicorn app.main:app --host 0.0.0.0 --reload
+
+or
+
+
 Use Docker Compose to build and run the application:
 
 ```bash
