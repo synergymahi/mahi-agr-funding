@@ -126,7 +126,9 @@ CREATE TABLE projects (
 
 Use command
 
+```bash
 uvicorn app.main:app --host 0.0.0.0 --reload
+```
 
 or
 
